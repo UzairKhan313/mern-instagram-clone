@@ -18,6 +18,7 @@
   "author": "Uzair khan",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "concurrently": "^9.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
