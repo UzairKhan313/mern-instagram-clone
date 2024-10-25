@@ -1,5 +1,9 @@
 import { StatusCodes } from "http-status-codes";
+
 import { BadRequestError, NotFoundError } from "../errors/custom-error.js";
+import { comparePassword, hashPassword } from "../utils/password-utility.js";
+import { createJWT } from "../utils/token-utility.js";
+
 import User from "../models/user-model.js";
 
 // Signup User
@@ -17,26 +21,17 @@ export const signupUser = async (req, res, next) => {
     throw new BadRequestError("Email already exists");
   }
 
-  const newUser = await User.create({
+  const hashedPassword = await hashPassword(password);
+  await User.create({
     name,
     email,
     username,
-    password,
-    avatar: req.file.location,
+    password: hashedPassword,
   });
 
-  const token = newUser.generateToken();
-
-  const options = {
-    expires: new Date(
-      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
-
-  res.status(StatusCodes.CREATED).cookie("token", token, options).json({
+  res.status(StatusCodes.CREATED).json({
     success: true,
-    user,
+    msg: "Account created successfully.",
   });
 };
 
@@ -52,25 +47,26 @@ export const loginUser = async (req, res, next) => {
     throw new NotFoundError("User not found.");
   }
 
-  const isPasswordMatched = await user.comparePassword(password);
+  const isPasswordMatched = await comparePassword(user.password);
 
   if (!isPasswordMatched) {
-    throw new BadRequestError("Inavlid login crendentials.");
+    throw new BadRequestError("Invalid user crendentials.");
   }
 
-  const token = user.generateToken();
+  const token = createJWT({ userId: user._id });
 
-  const options = {
-    expires: new Date(
-      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
-
-  res.status(StatusCodes.OK).cookie("token", token, options).json({
-    success: true,
-    user,
-  });
+  res
+    .status(StatusCodes.OK)
+    .cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+    })
+    .json({
+      message: `Welcome back ${user.name}`,
+      success: true,
+      user,
+    });
 };
 
 // Logout User

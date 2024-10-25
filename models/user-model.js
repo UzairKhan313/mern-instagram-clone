@@ -16,7 +16,11 @@ const userSchema = new mongoose.Schema(
       required: [true, "Email address is required."],
       unique: [true, "Email already register please pick another one."],
     },
-    password: { type: String, required: [true, "Password is required."] },
+    password: {
+      type: String,
+      required: [true, "Password is required."],
+      select: false,
+    },
     avatar: { type: String, default: "" },
     bio: { type: String, default: "Hi👋, There Welcome To My Profile." },
     gender: { type: String, enum: ["male", "female"] },
@@ -28,4 +32,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;

@@ -5,11 +5,15 @@ import mongoose from "mongoose";
 
 import errorHandlerMiddleware from "./middleware/error-middleware.js";
 
+import authRouter from "./routes/auth-routes.js";
+
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 3003;
 
 app.use(cors());
+
+app.use("/api/v1/auth", authRouter);
 
 // Not found Routes Error.
 app.use("*", (req, res) => {
