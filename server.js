@@ -1,12 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+import mongoose from "mongoose";
 
 import errorHandlerMiddleware from "./middleware/error-middleware.js";
-import mongoose from "mongoose";
 
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 3003;
+
+app.use(cors());
 
 // Not found Routes Error.
 app.use("*", (req, res) => {
