@@ -5,6 +5,7 @@ import { comparePassword, hashPassword } from "../utils/password-utility.js";
 import { createJWT } from "../utils/token-utility.js";
 
 import User from "../models/user-model.js";
+import Post from "../models/post-model.js";
 
 // Signup User
 export const signupUser = async (req, res, next) => {
@@ -54,6 +55,26 @@ export const loginUser = async (req, res, next) => {
   }
 
   const token = createJWT({ userId: user._id });
+  // populate each post if in the posts array
+  const populatedPosts = await Promise.all(
+    user.posts.map(async (postId) => {
+      const post = await Post.findById(postId);
+      if (post.author.equals(user._id)) {
+        return post;
+      }
+      return null;
+    })
+  );
+  user = {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+    profilePicture: user.profilePicture,
+    bio: user.bio,
+    followers: user.followers,
+    following: user.following,
+    posts: populatedPosts,
+  };
 
   res
     .status(StatusCodes.OK)
@@ -63,7 +84,7 @@ export const loginUser = async (req, res, next) => {
       maxAge: 1 * 24 * 60 * 60 * 1000,
     })
     .json({
-      message: `Welcome back ${user.name}`,
+      msg: `Welcome back ${user.name}`,
       success: true,
       user,
     });
@@ -78,6 +99,6 @@ export const logoutUser = async (req, res, next) => {
 
   res.status(StatusCodes.OK).json({
     success: true,
-    message: "Logged Out",
+    msg: "Logged Out",
   });
 };
