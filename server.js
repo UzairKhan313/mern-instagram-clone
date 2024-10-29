@@ -10,6 +10,7 @@ import authRouter from "./routes/auth-routes.js";
 import userRouter from "./routes/user-routes.js";
 import postRouter from "./routes/post-routes.js";
 import commentRouter from "./routes/comment-routes.js";
+import messageRouter from "./routes/messages-routes.js";
 
 const app = express();
 dotenv.config();
@@ -25,6 +26,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 app.use("/api/v1/comment", commentRouter);
+app.use("/api/v1/messaage", messageRouter);
 
 // Not found Routes Error.
 app.use("*", (req, res) => {
