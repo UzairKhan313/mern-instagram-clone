@@ -40,7 +40,7 @@ export const signupUser = async (req, res, next) => {
 export const loginUser = async (req, res, next) => {
   const { userId, password } = req.body;
 
-  const user = await User.findOne({
+  let user = await User.findOne({
     $or: [{ email: userId }, { username: userId }],
   }).select("+password");
 
@@ -48,7 +48,7 @@ export const loginUser = async (req, res, next) => {
     throw new NotFoundError("User not found.");
   }
 
-  const isPasswordMatched = await comparePassword(user.password);
+  const isPasswordMatched = await comparePassword(password, user.password);
 
   if (!isPasswordMatched) {
     throw new BadRequestError("Invalid user crendentials.");
@@ -65,6 +65,7 @@ export const loginUser = async (req, res, next) => {
       return null;
     })
   );
+
   user = {
     _id: user._id,
     username: user.username,
@@ -84,7 +85,7 @@ export const loginUser = async (req, res, next) => {
       maxAge: 1 * 24 * 60 * 60 * 1000,
     })
     .json({
-      msg: `Welcome back ${user.name}`,
+      msg: `Welcome back ${user.username}`,
       success: true,
       user,
     });

@@ -1,3 +1,4 @@
+import "express-async-errors";
 import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
