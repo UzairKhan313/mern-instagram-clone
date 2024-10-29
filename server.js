@@ -8,6 +8,8 @@ import errorHandlerMiddleware from "./middleware/error-middleware.js";
 
 import authRouter from "./routes/auth-routes.js";
 import userRouter from "./routes/user-routes.js";
+import postRouter from "./routes/post-routes.js";
+import commentRouter from "./routes/comment-routes.js";
 
 const app = express();
 dotenv.config();
@@ -21,6 +23,8 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 //middlewares
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/post", postRouter);
+app.use("/api/v1/comment", commentRouter);
 
 // Not found Routes Error.
 app.use("*", (req, res) => {
@@ -34,11 +38,11 @@ app.listen(port, async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log(
-      `server running and connected to Database on http://localhost:${port}`
+      `server running, ( connected to Database successfully ) on http://localhost:${port}`
     );
   } catch (error) {
     console.log(error);
-    console.log("falid to connect to the data base.");
+    console.log("failed to connect to the data base.");
     process.exit(1);
   }
 });
