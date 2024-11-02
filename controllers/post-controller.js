@@ -62,7 +62,7 @@ export const getAllPost = async (req, res) => {
         select: "username, profilePicture",
       },
     });
-  if (posts.length) throw new NotFoundError("No posts avalaible yet.");
+  if (!posts.length) throw new NotFoundError("No posts avalaible yet.");
   res.status(StatusCodes.OK).json({
     posts,
     success: true,
