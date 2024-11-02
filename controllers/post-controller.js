@@ -10,6 +10,8 @@ import Comment from "../models/comment-model.js";
 
 // Adding new Post.
 export const addNewPost = async (req, res) => {
+  console.log("Adding new post.");
+
   const { caption } = req.body;
   const image = req.file;
   const authorId = req.userId;
@@ -26,6 +28,7 @@ export const addNewPost = async (req, res) => {
   const fileUri = `data:image/jpeg;base64,${optimizedImageBuffer.toString(
     "base64"
   )}`;
+
   const cloudResponse = await cloudinary.uploader.upload(fileUri);
   const post = await Post.create({
     caption,

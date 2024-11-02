@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "./ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import Comment from "./Comment";
 import { toast } from "sonner";
-import { setPosts } from "@/redux/postSlice";
+import { setPosts } from "@/redux/post-slice";
+
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Comment from "./Comment";
 
 const CommentDailog = ({ open, setOpen }) => {
   const [text, setText] = useState("");

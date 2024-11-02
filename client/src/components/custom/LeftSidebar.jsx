@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { setAuthUser } from "@/redux/auth-slice";
+import CreatePost from "./Create-Post";
 
 const LeftSidebar = () => {
   const [open, setOpen] = useState(false);
@@ -86,6 +87,7 @@ const LeftSidebar = () => {
           ))}
         </div>
       </div>
+      {open && <CreatePost open={open} setOpen={setOpen} />}
     </div>
   );
 };

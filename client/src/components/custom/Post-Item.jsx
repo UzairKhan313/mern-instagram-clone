@@ -1,17 +1,21 @@
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import CommentDailog from "./Comment-Dailog";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "sonner";
-import { setPosts, setSelectedPost } from "@/redux/postSlice";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { setPosts, setSelectedPost } from "@/redux/post-slice";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+import CommentDailog from "@/components/custom/Comment-Dailog";
+
 import { Badge } from "@/components/ui/badge";
 
-const Post = ({ post }) => {
+const PostItem = ({ post }) => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
@@ -129,7 +133,7 @@ const Post = ({ post }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={post.author?.profilePicture} alt="post_image" />
+            <AvatarImage src={post.author?.avatar} alt="post_image" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex items-center gap-3">
@@ -242,4 +246,4 @@ const Post = ({ post }) => {
   );
 };
 
-export default Post;
+export default PostItem;

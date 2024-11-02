@@ -19,7 +19,7 @@ router.route("/new").post(authenticateUser, upload.single("image"), addNewPost);
 
 router.route("/all").get(authenticateUser, getAllPost);
 
-router.route("/my-post/all").get(authenticateUser, getMyPosts);
+router.route("/my/all").get(authenticateUser, getMyPosts);
 router.route("/:id/like").get(authenticateUser, likePost);
 router.route("/:id/dislike").get(authenticateUser, dislikePost);
 router.route("/delete/:id").delete(authenticateUser, deletePost);
