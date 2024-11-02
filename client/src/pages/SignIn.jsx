@@ -1,13 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import { setAuthUser } from "@/redux/auth-slice";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     userId: "",
     password: "",
@@ -34,8 +37,9 @@ const SignUp = () => {
         }
       );
       if (res.data.success) {
+        dispatch(setAuthUser(res.data.user));
         toast.success(res.data.msg);
-        navigate("/home");
+        navigate("/");
         setInput({
           userId: "",
           password: "",
