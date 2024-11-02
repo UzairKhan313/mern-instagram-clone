@@ -20,6 +20,7 @@ const PostItem = ({ post }) => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
   const { posts } = useSelector((store) => store.post);
+
   const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
   const [postLike, setPostLike] = useState(post.likes.length);
   const [comment, setComment] = useState(post.comments);
@@ -38,16 +39,15 @@ const PostItem = ({ post }) => {
     try {
       const action = liked ? "dislike" : "like";
       const res = await axios.get(
-        `https://instaclone-g9h5.onrender.com/api/v1/post/${post._id}/${action}`,
+        `http://localhost:3000/api/v1/post/${post._id}/${action}`,
         { withCredentials: true }
       );
-      console.log(res.data);
       if (res.data.success) {
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
         setLiked(!liked);
 
-        // apne post ko update krunga
+        // update the post.
         const updatedPostData = posts.map((p) =>
           p._id === post._id
             ? {
@@ -59,17 +59,17 @@ const PostItem = ({ post }) => {
             : p
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.msg);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.msg);
     }
   };
 
   const commentHandler = async () => {
     try {
       const res = await axios.post(
-        `https://instaclone-g9h5.onrender.com/api/v1/post/${post._id}/comment`,
+        `http://localhost:3000/api/v1/comment/${post._id}`,
         { text },
         {
           headers: {
@@ -78,7 +78,6 @@ const PostItem = ({ post }) => {
           withCredentials: true,
         }
       );
-      console.log(res.data);
       if (res.data.success) {
         const updatedCommentData = [...comment, res.data.comment];
         setComment(updatedCommentData);
@@ -88,18 +87,18 @@ const PostItem = ({ post }) => {
         );
 
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.msg);
         setText("");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.msg);
     }
   };
 
   const deletePostHandler = async () => {
     try {
       const res = await axios.delete(
-        `https://instaclone-g9h5.onrender.com/api/v1/post/delete/${post?._id}`,
+        `http://localhost:3000/api/v1/post/delete/${post?._id}`,
         { withCredentials: true }
       );
       if (res.data.success) {
@@ -107,11 +106,11 @@ const PostItem = ({ post }) => {
           (postItem) => postItem?._id !== post?._id
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.msg);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.messsage);
+      toast.error(error.response.data.msg);
     }
   };
 
@@ -225,7 +224,7 @@ const PostItem = ({ post }) => {
         </span>
       )}
       <CommentDailog open={open} setOpen={setOpen} />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mt-2">
         <input
           type="text"
           placeholder="Add a comment..."

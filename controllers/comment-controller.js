@@ -8,7 +8,7 @@ import Post from "../models/post-model.js";
 // Adding comment to a post
 export const addCommentToPost = async (req, res) => {
   const postId = req.params.id;
-  const userIdWhoMakeComment = req.id;
+  const userIdWhoMakeComment = req.userId;
 
   const { text } = req.body;
   if (!text) throw BadRequestError("You can't make an empty comment.");

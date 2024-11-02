@@ -35,7 +35,7 @@ const CommentDailog = ({ open, setOpen }) => {
   const sendMessageHandler = async () => {
     try {
       const res = await axios.post(
-        `https://instaclone-g9h5.onrender.com/api/v1/post/${selectedPost?._id}/comment`,
+        `http://localhost:3000/api/v1/comment/${selectedPost?._id}`,
         { text },
         {
           headers: {
@@ -55,11 +55,12 @@ const CommentDailog = ({ open, setOpen }) => {
             : p
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.msg);
+
         setText("");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.msg);
     }
   };
 
@@ -82,7 +83,7 @@ const CommentDailog = ({ open, setOpen }) => {
               <div className="flex gap-3 items-center">
                 <Link>
                   <Avatar>
-                    <AvatarImage src={selectedPost?.author?.profilePicture} />
+                    <AvatarImage src={selectedPost?.author?.avatar} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </Link>

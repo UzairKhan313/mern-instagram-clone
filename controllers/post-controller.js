@@ -10,8 +10,6 @@ import Comment from "../models/comment-model.js";
 
 // Adding new Post.
 export const addNewPost = async (req, res) => {
-  console.log("Adding new post.");
-
   const { caption } = req.body;
   const image = req.file;
   const authorId = req.userId;
