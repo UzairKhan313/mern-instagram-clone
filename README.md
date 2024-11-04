@@ -42,3 +42,9 @@ This is a full-stack Instagram clone built using the MERN (MongoDB, Express, Rea
 ```bash
   npm install setup project
 ```
+
+4. **Run the project**
+
+```bash
+  npm run dev
+```
