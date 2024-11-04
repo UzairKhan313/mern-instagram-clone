@@ -6,17 +6,44 @@ import { io } from "socket.io-client";
 import MainLayout from "./components/custom/MainLayout";
 import { setSocket } from "./redux/socket-slice";
 import { setOnlineUsers } from "./redux/chat-slice";
+import { setLikeNotification } from "./redux/notification-slice";
 import { Chat, EditProfile, Home, Login, Profile, Register } from "./pages";
+import ProtectedRoutes from "./components/custom/Protect-Routes";
 
 const browserRouter = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoutes>
+        <MainLayout />
+      </ProtectedRoutes>
+    ),
     children: [
       { path: "/", element: <Home />, index: true },
-      { path: "/profile/:id", element: <Profile /> },
-      { path: "/account/edit", element: <EditProfile /> },
-      { path: "/chat", element: <Chat /> },
+      {
+        path: "/profile/:id",
+        element: (
+          <ProtectedRoutes>
+            <Profile />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/account/edit",
+        element: (
+          <ProtectedRoutes>
+            <EditProfile />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/chat",
+        element: (
+          <ProtectedRoutes>
+            <Chat />
+          </ProtectedRoutes>
+        ),
+      },
     ],
   },
   { path: "/login", element: <Login /> },

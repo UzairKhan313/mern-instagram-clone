@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ const SignUp = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const changeEventHandler = (e) => {
@@ -52,6 +53,12 @@ const SignUp = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
   return (
     <div className="flex items-center max-w-screen h-screen justify-center">
       <form

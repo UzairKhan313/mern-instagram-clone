@@ -7,6 +7,7 @@ import cloudinary from "../utils/cloudinary.js";
 import User from "../models/user-model.js";
 import Post from "../models/post-model.js";
 import Comment from "../models/comment-model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 // Adding new Post.
 export const addNewPost = async (req, res) => {
@@ -135,14 +136,11 @@ export const dislikePost = async (req, res) => {
   await post.updateOne({ $pull: { likes: userId } });
   await post.save();
 
-  //  Todo : implement socket io for real time notification
   // implement socket io for real time notification
-  const user = await User.findById(likeKrneWalaUserKiId).select(
-    "username profilePicture"
-  );
+  const user = await User.findById(userId).select("username avatar");
 
   const postOwnerId = post.author.toString();
-  if (postOwnerId !== likeKrneWalaUserKiId) {
+  if (postOwnerId !== userId) {
     // emit a notification event
     const notification = {
       type: "Dislike",
