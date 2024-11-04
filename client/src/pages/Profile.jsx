@@ -37,7 +37,7 @@ const Profile = () => {
                 alt={userProfile?.username}
               />
               <AvatarFallback>
-                {userProfile?.username.slice(0).toUpperCase()}
+                {userProfile?.username.toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </section>

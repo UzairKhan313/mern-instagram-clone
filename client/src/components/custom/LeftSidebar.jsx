@@ -23,6 +23,7 @@ const LeftSidebar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+
   const sidebarItems = [
     { icon: <Home />, text: "Home" },
     { icon: <Search />, text: "Search" },
@@ -34,9 +35,7 @@ const LeftSidebar = () => {
       icon: (
         <Avatar>
           <AvatarImage src={user?.avatar} />
-          <AvatarFallback>
-            {user?.username[0].toUpperCase() || "GN"}
-          </AvatarFallback>
+          <AvatarFallback>{user?.username[0].toUpperCase()}</AvatarFallback>
         </Avatar>
       ),
       text: "Profile",

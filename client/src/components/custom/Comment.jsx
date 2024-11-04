@@ -1,11 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const Comment = ({ comment }) => {
+  console.log(comment);
+
   return (
     <div className="my-2">
       <div className="flex gap-3 items-center">
         <Avatar>
-          <AvatarImage src={comment?.author?.profilePicture} />
+          <AvatarImage src={comment?.author?.avatar} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <h1 className="font-bold text-sm">

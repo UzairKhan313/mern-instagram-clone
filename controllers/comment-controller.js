@@ -40,12 +40,15 @@ export const addCommentToPost = async (req, res) => {
 
 // get comments of a speciffic post.
 export const getCommentsOfPost = async (req, res) => {
+  console.log("Getting a post coments");
+
   const postId = req.params.id;
 
   const comments = await Comment.find({ post: postId }).populate(
     "author",
-    "username name profilePicture"
+    "username name avatar"
   );
+
   if (!comments) throw new NotFoundError("No comments found for this post");
   res.status(StatusCodes.OK).json({ success: true, comments });
 };

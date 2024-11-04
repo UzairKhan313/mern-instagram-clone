@@ -39,7 +39,7 @@ export const editProfile = async (req, res, next) => {
   if (bio) user.bio = bio;
   if (name) user.name = name;
   if (gender) user.gender = gender;
-  if (profilePicture) user.profilePicture = cloudResponse.secure_url;
+  if (profilePicture) user.avatar = cloudResponse.secure_url;
 
   await user.save();
 

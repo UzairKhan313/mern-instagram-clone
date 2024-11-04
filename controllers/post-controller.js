@@ -53,13 +53,13 @@ export const addNewPost = async (req, res) => {
 export const getAllPost = async (req, res) => {
   const posts = await Post.find()
     .sort({ createdAt: -1 }) // sorted on time, decreasing mean most recent posts.
-    .populate({ path: "author", select: "username, name, profilePicture" })
+    .populate({ path: "author", select: "username name avatar" })
     .populate({
       path: "comments",
       sort: { createdAt: -1 },
       populate: {
         path: "author",
-        select: "username, profilePicture",
+        select: "username avatar",
       },
     });
   if (!posts.length) throw new NotFoundError("No posts avalaible yet.");

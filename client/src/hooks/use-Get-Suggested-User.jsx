@@ -14,8 +14,6 @@ const useGetSuggestedUsers = () => {
           { withCredentials: true }
         );
         if (res.data.success) {
-          console.log(res.data);
-
           dispatch(setSuggestedUsers(res.data.users));
         }
       } catch (error) {
