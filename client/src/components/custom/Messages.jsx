@@ -1,19 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import useGetAllMessage from "@/hooks/use-Get-All-Messages";
+import useGetRTM from "@/hooks/use-Get-RTM";
 
-const Messages = () => {
+const Messages = ({ selectedUser }) => {
+  useGetAllMessage();
+  useGetRTM();
+  const { messages } = useSelector((store) => store.chat);
+  const { user } = useSelector((store) => store.auth);
   return (
     <div className="overflow-y-auto flex-1 p-4">
       <div className="flex justify-center">
         <div className="flex flex-col items-center justify-center">
           <Avatar className="h-20 w-20">
-            <AvatarImage
-              src={selectedUser?.avatar}
-              alt={selectedUser?.username}
-            />
+            <AvatarImage src={selectedUser?.avatar} alt="profile" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <span>{selectedUser?.username}</span>

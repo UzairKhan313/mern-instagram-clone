@@ -27,7 +27,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 app.use("/api/v1/comment", commentRouter);
-app.use("/api/v1/messaage", messageRouter);
+app.use("/api/v1/message", messageRouter);
 
 // Not found Routes Error.
 app.use("*", (req, res) => {

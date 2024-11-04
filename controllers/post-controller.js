@@ -104,7 +104,23 @@ export const likePost = async (req, res) => {
   await post.updateOne({ $addToSet: { likes: userId } });
   await post.save();
 
-  // ToDo : implement socket io for real time notification
+  //  implement socket io for real time notification
+
+  const user = await User.findById(userId).select("username profilePicture");
+
+  const postOwnerId = post.author.toString();
+  if (postOwnerId !== userId) {
+    // emit a notification event
+    const notification = {
+      type: "like",
+      userId: userId,
+      userDetails: user,
+      postId,
+      message: "Your post was liked",
+    };
+    const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+    io.to(postOwnerSocketId).emit("notification", notification);
+  }
 
   res.status(StatusCodes.OK).json({ msg: "Post liked", success: true });
 };
@@ -120,6 +136,24 @@ export const dislikePost = async (req, res) => {
   await post.save();
 
   //  Todo : implement socket io for real time notification
+  // implement socket io for real time notification
+  const user = await User.findById(likeKrneWalaUserKiId).select(
+    "username profilePicture"
+  );
+
+  const postOwnerId = post.author.toString();
+  if (postOwnerId !== likeKrneWalaUserKiId) {
+    // emit a notification event
+    const notification = {
+      type: "Dislike",
+      userId: userId,
+      userDetails: user,
+      postId,
+      message: "Your post was disliked",
+    };
+    const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+    io.to(postOwnerSocketId).emit("notification", notification);
+  }
 
   res.status(StatusCodes.OK).json({ msg: "Post disliked", success: true });
 };

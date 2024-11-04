@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MessageCircleCode } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Messages from "@/components/custom/Messages";
+import { setSelectedUser } from "@/redux/auth-slice";
+import { setMessages } from "@/redux/chat-slice";
 
 const Chat = () => {
   const [textMessage, setTextMessage] = useState("");
@@ -14,6 +17,33 @@ const Chat = () => {
   );
   const { onlineUsers, messages } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
+
+  const sendMessageHandler = async (receiverId) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:3000/api/v1/message/send/${receiverId}`,
+        { textMessage },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        dispatch(setMessages([...messages, res.data.newMessage]));
+        setTextMessage("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSelectedUser(null));
+    };
+  }, []);
   return (
     <div className="flex ml-[22%] h-screen">
       <section className="w-full md:w-1/4 my-8">

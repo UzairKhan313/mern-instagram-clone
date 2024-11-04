@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 
 import Chat from "../models/chat-model.js";
 import Message from "../models/message-model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 // send messages
 export const sendMessage = async (req, res) => {
@@ -23,11 +24,15 @@ export const sendMessage = async (req, res) => {
     receiverId,
     message,
   });
-  if (newMessage) Chat.messages.push(newMessage._id);
+  if (newMessage) chat.messages.push(newMessage._id);
 
   await Promise.all([chat.save(), newMessage.save()]);
 
-  // todo implement socket io for real time comunication.
+  //  implement socket io for real time comunication.
+  const receiverSocketId = getReceiverSocketId(receiverId);
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit("newMessage", newMessage);
+  }
 
   res.status(StatusCodes.OK).json({
     success: true,
