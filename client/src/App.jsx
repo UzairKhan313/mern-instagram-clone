@@ -9,7 +9,7 @@ const browserRouter = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { path: "/", element: <Home />, index: true },
-      { path: "/profile", element: <Profile /> },
+      { path: "/profile/:id", element: <Profile /> },
     ],
   },
   { path: "/login", element: <Login /> },

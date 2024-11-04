@@ -2,17 +2,15 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "sonner";
+
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { setPosts, setSelectedPost } from "@/redux/post-slice";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-
 import CommentDailog from "@/components/custom/Comment-Dailog";
-
 import { Badge } from "@/components/ui/badge";
 
 const PostItem = ({ post }) => {

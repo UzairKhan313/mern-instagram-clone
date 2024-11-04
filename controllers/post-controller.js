@@ -95,12 +95,12 @@ export const getMyPosts = async (req, res) => {
 
 // Like a post.
 export const likePost = async (req, res) => {
-  const userId = req.id;
+  const userId = req.userId;
   const postId = req.params.id;
   const post = await Post.findById(postId);
   if (!post) throw new NotFoundError("Post not found.");
 
-  // like onece addToSet mean keeping the likes array in set which mean all unique values.
+  // like once addToSet mean keeping the likes array in set which mean all unique values.
   await post.updateOne({ $addToSet: { likes: userId } });
   await post.save();
 
@@ -111,7 +111,7 @@ export const likePost = async (req, res) => {
 
 // dislike a post
 export const dislikePost = async (req, res) => {
-  const userId = req.id;
+  const userId = req.userId;
   const postId = req.params.id;
   const post = await Post.findById(postId);
   if (!post) throw new NotFoundError("Post not found.");
