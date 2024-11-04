@@ -70,7 +70,7 @@ export const loginUser = async (req, res, next) => {
     _id: user._id,
     username: user.username,
     email: user.email,
-    profilePicture: user.profilePicture,
+    avatar: user.avatar,
     bio: user.bio,
     followers: user.followers,
     following: user.following,

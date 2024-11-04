@@ -12,7 +12,7 @@ export const getUserProfile = async (req, res, next) => {
     .populate("bookmarks");
 
   if (!user) {
-    throw new NotFoundError("Email already exists");
+    throw new NotFoundError("User not found");
   }
   res.status(StatusCodes.OK).json({
     user,

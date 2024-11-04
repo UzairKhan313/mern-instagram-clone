@@ -12,8 +12,8 @@ import userRouter from "./routes/user-routes.js";
 import postRouter from "./routes/post-routes.js";
 import commentRouter from "./routes/comment-routes.js";
 import messageRouter from "./routes/messages-routes.js";
+import { app, server } from "./socket/socket.js";
 
-const app = express();
 dotenv.config();
 const port = process.env.PORT || 3003;
 
@@ -37,7 +37,7 @@ app.use("*", (req, res) => {
 //Error Handler Middlewar.
 app.use(errorHandlerMiddleware);
 
-app.listen(port, async () => {
+server.listen(port, async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log(
